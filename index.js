@@ -44,6 +44,14 @@ app.delete("/guests/:id", (req, res) => {
     res.status(200).send({message: "Successfully deleted the guest"});
 });
 
+app.put("/guests/:id", (req, res) => {
+    const updatedGuest = guests.update(req.params.id, req.body);
+    if (!updatedGuest) {
+        return res.status(404).send({error: "Guest not found or update failed"});
+    }
+    res.status(200).send({message: "Guests data successfully updated", data: updatedGuest});
+});
+
 app.use("/docs",swaggerui.serve,swaggerui.setup(swaggerDocument))
 
 app.listen(port, ()=> {

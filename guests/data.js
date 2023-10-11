@@ -20,6 +20,16 @@ exports.create = (newGuest) => {
     return newGuest;
 }
 
+exports.update = (id, updatedGuest) => {
+    const guestIndex = data.findIndex(g => g.id === parseInt(id));
+    if (guestIndex !== -1) {
+        const updated = { ...data[guestIndex], ...updatedGuest }; 
+        data[guestIndex] = updated;
+        return updated;
+    }
+    return null;
+}
+
 exports.delete = (id) => {
     const index = data.findIndex(guest => guest.id == parseInt(id));
     if (index !== -1) {

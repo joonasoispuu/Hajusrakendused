@@ -76,6 +76,32 @@ paths:
             operationId: id
             summary: Get full details of a guest
             description: Returns full details of the guest given
+        put:
+            requestBody:
+                description: Update a users details
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/update-guests-details'
+                required: true
+            tags:
+                - change-details
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    description: The updates were made successfully
+                '400':
+                    description: |+
+                        Failed to update the guest
+
+                '404':
+                    description: No guests exist with that id
+            summary: Change guests details
+            description: Change guests details by id
         delete:
             tags:
                 - delete-guest
@@ -144,3 +170,24 @@ components:
                     type: string
             example:
                 id: 1
+        update-guests-details:
+            description: update a guests details by their id
+            type: object
+            properties:
+                EmailAddress:
+                    description: ''
+                    type: string
+                FirstName:
+                    description: ''
+                    type: string
+                LastName:
+                    description: ''
+                    type: string
+                PhoneNumber:
+                    description: ''
+                    type: integer
+            example:
+                FirstName: Joonas
+                LastName: Oispuu
+                PhoneNumber: '1234567890'
+                EmailAddress: s@gmail.com
