@@ -6,5 +6,5 @@ const swaggerDocument = require("./docs/swagger.json")
 app.use("/docs",swaggerui.serve,swaggerui.setup(swaggerDocument))
 
 app.listen(port, ()=> {
-    console.log(`API up at: http://localhost:${port}`);
+    console.log(`API up at: http://localhost:${port}/docs`);
 })
