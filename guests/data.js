@@ -19,3 +19,12 @@ exports.create = (newGuest) => {
     data.push(newGuest);
     return newGuest;
 }
+
+exports.delete = (id) => {
+    const index = data.findIndex(guest => guest.id == parseInt(id));
+    if (index !== -1) {
+        data.splice(index, 1);
+        return true;
+    }
+    return false;
+}

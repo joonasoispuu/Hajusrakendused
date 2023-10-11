@@ -36,6 +36,14 @@ app.post('/guests', (req, res) => {
     res.status(201).send(createdGuest);
 });
 
+app.delete("/guests/:id", (req, res) => {
+    const isDeleted = guests.delete(req.params.id);
+    if (!isDeleted) {
+        return res.status(404).send({error: "Guest not found"});
+    }
+    res.status(200).send({message: "Successfully deleted the guest"});
+});
+
 app.use("/docs",swaggerui.serve,swaggerui.setup(swaggerDocument))
 
 app.listen(port, ()=> {

@@ -76,6 +76,27 @@ paths:
             operationId: id
             summary: Get full details of a guest
             description: Returns full details of the guest given
+        delete:
+            tags:
+                - delete-guest
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+            responses:
+                '204':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/delete-guest'
+                    description: Successfully deleted the guest!
+                '400':
+                    description: Failed to delete the guest!
+                '404':
+                    description: No guest by that Id was found
+            summary: Delete a guest
+            description: Deletes a guest by the Id
 components:
     schemas:
         error:
@@ -112,3 +133,14 @@ components:
                 LastName: Oispuu
                 PhoneNumber: '1234567890'
                 EmailAddress: s@gmail.com
+        delete-guest:
+            description: Delete guest by Id
+            required:
+                - id
+            type: object
+            properties:
+                id:
+                    description: ''
+                    type: string
+            example:
+                id: 1
