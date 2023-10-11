@@ -1,0 +1,72 @@
+openapi: 3.0.2
+info:
+    title: Hotel-API
+    version: 1.0.0
+    description: this is a swagger for my Hotel API
+paths:
+    /guests:
+        get:
+            tags:
+                - guests
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                List of guests:
+                                    value:
+                                        - Pablo Gonzalez
+                                        - John Man
+                    description: Returns a list of all guests
+            summary: Get a list of all guests
+            description: |
+                Returns a list of all guests
+    '/guests/{id}':
+        get:
+            tags:
+                - details
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                Full details of guest:
+                                    value: "    { GuestID: 1, FirstName: \"Pablo\", LastName: \"Gonzalez\", PhoneNumber: \"523456789\", EmailAddress: \"Gonzales12@gmail.com.com\" },\r\n"
+                    description: Returns full details of given guest
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                Guest /w+ was not found:
+                                    value:
+                                        error: Guest \w+ was not found in game array
+                    description: Guest was not found
+            operationId: id
+            summary: Get full details of a guest
+            description: Returns full details of the guest given
+        parameters:
+            -
+                name: id
+                in: path
+                required: true
+components:
+    schemas:
+        error:
+            title: Root Type for error
+            description: ''
+            type: object
+            properties:
+                error:
+                    type: string
+            example:
+                error: Error Message.
