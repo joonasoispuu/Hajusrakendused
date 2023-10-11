@@ -25,10 +25,32 @@ paths:
             summary: Get a list of all guests
             description: |
                 Returns a list of all guests
+        post:
+            requestBody:
+                description: A new guest to be created
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/new-guest'
+                required: true
+            tags:
+                - new-guest
+            responses:
+                '201':
+                    description: The guest has been successfully added
+                '400':
+                    description: One or all params are missing
+            summary: Creates a guest
+            description: Creates a new guest
     '/guests/{id}':
         get:
             tags:
                 - details
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
             responses:
                 '200':
                     content:
@@ -54,11 +76,6 @@ paths:
             operationId: id
             summary: Get full details of a guest
             description: Returns full details of the guest given
-        parameters:
-            -
-                name: id
-                in: path
-                required: true
 components:
     schemas:
         error:
@@ -70,3 +87,28 @@ components:
                     type: string
             example:
                 error: Error Message.
+        new-guest:
+            title: Root Type for new-guest
+            description: For adding new guests
+            required:
+                - PhoneNumber
+                - EmailAddress
+                - FirstName
+                - LastName
+            type: object
+            properties:
+                FirstName:
+                    type: string
+                LastName:
+                    type: string
+                PhoneNumber:
+                    maximum: 999999999
+                    minimum: 100000000
+                    type: integer
+                EmailAddress:
+                    type: string
+            example:
+                FirstName: Joonas
+                LastName: Oispuu
+                PhoneNumber: '1234567890'
+                EmailAddress: s@gmail.com
