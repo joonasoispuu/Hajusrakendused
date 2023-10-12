@@ -6,5 +6,5 @@ let data = [
 ];
 
 exports.getAll = () => {
-    return data.map(g => { return { "id": g.id, "GuestId": g.GuestId, "RoomNumber": g.RoomNumber } });
+    return data.map(g => { return { "id": g.id, "GuestId": g.GuestId, "RoomNumber": g.RoomNumber, "CheckInDate": g.CheckInDate, "CheckOutDate": g.CheckOutDate, "Status": g.Status } });
 }
