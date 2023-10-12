@@ -5,7 +5,11 @@ module.exports = (dbConnection, Sequelize)=>{
             primaryKey: true,
             autoIncrement: true
         },
-        Firstname:{
+        FirstName:{
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        LastName:{
             type: Sequelize.STRING,
             allowNull: false
         },

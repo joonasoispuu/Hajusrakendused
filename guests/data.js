@@ -3,7 +3,7 @@ let data = [
     {id: 2, FirstName: "John", LastName: "Man", PhoneNumber: "512638592", EmailAddress: "hotmale@hotmail.com"},
     {id: 3, FirstName: "Robert", LastName: "Man", PhoneNumber: "592918374", EmailAddress: "seedswallower12@gmail.com"},
     {id: 4, FirstName: "Albert", LastName: "Ott", PhoneNumber: "5281748590", EmailAddress: "topmunch@gmail.com"}
-];
+]
 
 exports.getAll = () => {
     return data.map(g => { return { "id": g.id, "FirstName": g.FirstName, "LastName": g.LastName } });
