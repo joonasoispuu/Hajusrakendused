@@ -8,3 +8,16 @@ let data = [
 exports.getAll = () => {
     return data.map(g => { return { "id": g.id, "GuestId": g.GuestId, "RoomNumber": g.RoomNumber, "CheckInDate": g.CheckInDate, "CheckOutDate": g.CheckOutDate, "Status": g.Status } });
 }
+
+exports.getById = (id) => {
+    return data.find(room => room.id == parseInt(id));
+}
+
+exports.delete = (id) => {
+    const index = data.findIndex(room => room.id == parseInt(id));
+    if (index !== -1) {
+        data.splice(index, 1);
+        return true;
+    }
+    return false;
+}

@@ -6,19 +6,6 @@ const port = process.env.PORT;
 const swaggerui = require("swagger-ui-express")
 const yamljs = require("yamljs")
 const swaggerDocument = yamljs.load("./docs/swagger.yaml");
-const  {Sequelize} = require("sequelize")
-const sequelize = new Sequelize(process.env.DATABASE, process.env.DB_USER, process.env.DB_PASS,{
-    host: process.env.DB_HOST,
-    dialect: "mariadb"
-})
-
-try {
-    sequelize.authenticate().then(() => {
-    console.log('Connection has been established successfully.');
-    });
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-}
 
 let guests = require("./guests/data");
 let rooms = require("./rooms/data");
@@ -76,7 +63,18 @@ app.get("/rooms", (req, res) => {
     res.send(rooms.getAll());
 })
 
+app.delete("/rooms/:id", (req, res) => {
+    const isDeleted = guests.delete(req.params.id);
+    if (!isDeleted) {
+        return res.status(404).send({error: "Room not found"});
+    }
+    res.status(200).send({message: "Successfully deleted the room"});
+});
+
 app.listen(port, ()=> {
+    require("./db").sync()
+        .then(console.log("Synchronized"))
+        .catch((error)=>console.log("Error: ", error))
     console.log(`API up at: http://localhost:${port}`);
     console.log(`API up at: http://localhost:${port}/docs`);
 
