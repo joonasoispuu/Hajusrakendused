@@ -1,10 +1,27 @@
+require("dotenv").config()
+
 const express = require("express");
 const app = express();
-const port = 8080
+const port = process.env.PORT;
 const swaggerui = require("swagger-ui-express")
 const yamljs = require("yamljs")
 const swaggerDocument = yamljs.load("./docs/swagger.yaml");
+const  {Sequelize} = require("sequelize")
+const sequelize = new Sequelize(process.env.DATABASE, process.env.DB_USER, process.env.DB_PASS,{
+    host: process.env.DB_HOST,
+    dialect: "mariadb"
+})
+
+try {
+    sequelize.authenticate().then(() => {
+    console.log('Connection has been established successfully.');
+    });
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+}
+
 let guests = require("./guests/data");
+let rooms = require("./rooms/data");
 
 app.use(express.json());
 
@@ -53,6 +70,11 @@ app.put("/guests/:id", (req, res) => {
 });
 
 app.use("/docs",swaggerui.serve,swaggerui.setup(swaggerDocument))
+
+
+app.get("/rooms", (req, res) => {
+    res.send(rooms.getAll());
+})
 
 app.listen(port, ()=> {
     console.log(`API up at: http://localhost:${port}`);
