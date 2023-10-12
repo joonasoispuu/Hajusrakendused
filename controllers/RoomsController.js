@@ -1,11 +1,22 @@
-app.get("/rooms", (req, res) => {
-    res.send(rooms.getAll());
-})
+const { db } = require("../db");
+const rooms = db.rooms;
+const { getBaseurl } = require("./helpers");
 
-app.delete("/rooms/:id", (req, res) => {
-    const isDeleted = guests.delete(req.params.id);
-    if (!isDeleted) {
-        return res.status(404).send({error: "Room not found"});
+// READ
+exports.getAllRooms = async (req, res) => {
+    const result = await rooms.findAll({ attributes: ["id", "GuestId", "RoomNumber", "CheckInDate", "CheckOutDate", "Status"] });
+    res.json(result);
+}
+
+// CREATE
+exports.createNewRoom = async (req, res) => {
+    if (!req.body.GuestId || !req.body.RoomNumber || !req.body.CheckInDate || !req.body.CheckOutDate || !req.body.Status) {
+        return res.status(400).send({ error: "One or all required parameters are missing" });
     }
-    res.status(200).send({message: "Successfully deleted the room"});
-});
+    const createdRoom = await rooms.create(req.body, {
+        fields: ["GuestId", "RoomNumber", "CheckInDate", "CheckOutDate", "Status"]
+    });
+    res.status(201)
+        .location(`${getBaseurl(req)}/rooms/${createdRoom.id}`)
+        .json(createdRoom);
+}

@@ -135,11 +135,71 @@ paths:
                                 type: array
                                 items:
                                     type: string
+                            examples:
+                                List of rooms:
+                                    value: "    {id: 1, GuestId: \"1\", RoomNumber: \"40\", CheckInDate: \"December 17, 2023 08:24:00\", CheckOutDate: \"December 20, 2023 08:24:00\", Status:\"Occupied\"},\r\n    {id: 2, GuestId: \"3\", RoomNumber: \"41\", CheckInDate: \"December 19, 2023 06:24:00\", CheckOutDate: \"December 20, 2023 08:24:00\", Status:\"Occupied\"},\r\n    {id: 3, GuestId: \"4\", RoomNumber: \"42\", CheckInDate: \"December 16, 2023 01:25:00\", CheckOutDate: \"December 21, 2023 08:24:00\", Status:\"Occupied\"},\r\n    {id: 4, GuestId: \"5\", RoomNumber: \"43\", CheckInDate: \"December 15, 2023 12:24:00\", CheckOutDate: \"December 22, 2023 08:24:00\", Status:\"Occupied\"}"
                     description: Returns a list of all rooms
             summary: Get a list of all rooms
             description: |
                 Returns a list of all rooms
-    '/rooms/{id}': {}
+        post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/new-room'
+                        examples:
+                            new room:
+                                value:
+                                    id: 3
+                                    GuestId: '4'
+                                    RoomNumber: '42'
+                                    CheckInDate: 'December 16, 2023 01:25:00'
+                                    CheckOutDate: 'December 21, 2023 08:24:00'
+                                    Status: Occupied
+                required: true
+            tags:
+                - new-room
+            responses:
+                '201':
+                    description: The room has been successfully added
+                '400':
+                    description: One or all params are missing
+            summary: Creates a Room
+            description: Creates a new guest
+    '/rooms/{id}':
+        get:
+            tags:
+                - details
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                Full details of room:
+                                    value: "    {id: 1, GuestId: \"1\", RoomNumber: \"40\", CheckInDate: \"December 17, 2023 08:24:00\", CheckOutDate: \"December 20, 2023 08:24:00\", Status:\"Occupied\"},\r\n"
+                    description: Returns full details of given room
+                '404':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/error'
+                            examples:
+                                error:
+                                    value: Did not find an room with that id
+                    description: Guest was not found
+            summary: Gets full details of a room
+            description: |
+                Return full details of a room
 components:
     schemas:
         error:
@@ -208,3 +268,40 @@ components:
                 LastName: Oispuu
                 PhoneNumber: '1234567890'
                 EmailAddress: s@gmail.com
+        new-room:
+            description: for adding new rooms
+            required:
+                - GuestId
+                - RoomNumber
+                - CheckInDate
+                - CheckOutDate
+                - Status
+            type: object
+            properties:
+                GuestId:
+                    description: the guests id
+                    type: integer
+                RoomNumber:
+                    description: ''
+                    type: integer
+                CheckInDate:
+                    description: ''
+                    type: string
+                    example: 'December 17, 2023 08:24:00'
+                CheckOutDate:
+                    description: ''
+                    type: string
+                    example: 'December 17, 2023 08:24:00'
+                Status:
+                    description: ''
+                    type: string
+            example:
+                id: 3
+                GuestId: '4'
+                RoomNumber: '42'
+                CheckInDate: 'December 16, 2023 01:25:00'
+                CheckOutDate: 'December 21, 2023 08:24:00'
+                Status: Occupied
+        date:
+            description: date time
+            type: object

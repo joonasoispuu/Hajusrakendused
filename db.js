@@ -19,6 +19,7 @@ const db = {}
 db.sequelize = Sequelize
 db.connetcion = sequelize
 db.guests = require("./models/Guest")(sequelize, Sequelize);
+db.rooms = require("./models/Room")(sequelize, Sequelize);
 sync=async()=>{
     await sequelize.sync({force:true}) // Erase all and recreate
     // await sequelize.sync({alter:true}) // Alter existing to match the model
