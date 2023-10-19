@@ -180,7 +180,12 @@ paths:
                                     type: string
                             examples:
                                 Full details of room:
-                                    value: "    {id: 1, GuestId: \"1\", RoomNumber: \"40\", CheckInDate: \"December 17, 2023 08:24:00\", CheckOutDate: \"December 20, 2023 08:24:00\", Status:\"Occupied\"},\r\n"
+                                    value:
+                                        GuestId: '1'
+                                        RoomNumber: '40'
+                                        CheckInDate: 'December 17, 2023 08:24:00'
+                                        CheckOutDate: 'December 20, 2023 08:24:00'
+                                        Status: Occupied
                     description: Returns full details of given room
                 '404':
                     content:
@@ -191,7 +196,6 @@ paths:
                                 error:
                                     value: Did not find an room with that id
                     description: Guest was not found
-            operationId: id
             summary: Gets full details of a room
             description: |
                 Return full details of a room
@@ -221,6 +225,27 @@ paths:
                     description: No rooms exist with that id
             summary: Change rooms details
             description: Change rooms details by id
+        delete:
+            tags:
+                - Delete
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+            responses:
+                '204':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/delete-guest'
+                    description: Successfully deleted the room!
+                '400':
+                    description: Failed to delete the room!
+                '404':
+                    description: No rooms by that Id were found
+            summary: Delete a room
+            description: Deletes room by the Id
 components:
     schemas:
         error:
@@ -346,3 +371,13 @@ components:
                 CheckInDate: 'December 15, 2023 12:24:00'
                 CheckOutDate: 'December 22, 2023 08:24:00'
                 Status: Occupied
+        delete-room:
+            title: Root Type for delete-room
+            description: Delete guest by Id
+            type: object
+            properties:
+                id:
+                    format: int32
+                    type: integer
+            example:
+                id: 1

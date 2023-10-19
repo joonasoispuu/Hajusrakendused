@@ -50,3 +50,14 @@ exports.editById = async (req, res) => {
 
     res.status(200).send(updatedRooms[0]);
 };
+
+// DELETE
+exports.deleteById = async (req, res) => {
+    const deletedAmount = await rooms.destroy({
+        where: { id: req.params.id }
+    });
+    if (deletedAmount === 0) {
+        return res.status(404).send({ error: "No rooms by that Id were found" });
+    }
+    res.status(204).send();
+}

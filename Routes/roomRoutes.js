@@ -7,4 +7,5 @@ module.exports = (app) => {
     app.route("/rooms/:id")
         .get(roomController.getById)         // Read
         .put(roomController.editById)        // Update
+        .delete(roomController.deleteById)   // Delete
 }
