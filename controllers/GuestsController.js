@@ -35,7 +35,7 @@ exports.editById = async (req, res) => {
     const updateData = req.body;
 
     if (!updateData.FirstName || !updateData.LastName || !updateData.PhoneNumber || !updateData.EmailAddress) {
-        return res.status(400).send({ error: "Failed to update the room" });
+        return res.status(400).send({ error: "Failed to update the booking" });
     }
 
     const [updateCount, updatedGuests] = await guests.update(updateData, {

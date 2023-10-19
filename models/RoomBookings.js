@@ -1,5 +1,5 @@
 module.exports = (dbConnection, Sequelize) => {
-    const Room = dbConnection.define("Room", {
+    const Booking = dbConnection.define("Booking", {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
@@ -27,5 +27,5 @@ module.exports = (dbConnection, Sequelize) => {
         }
     });
 
-    return Room;
+    return Booking;
 }
