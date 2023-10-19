@@ -31,17 +31,25 @@ exports.getById = async (req, res) => {
 
 // UPDATE
 exports.editById = async (req, res) => {
-    const updateResult = await guests.update({ ...req.body }, {
-        where: { id: req.params.id },
-        fields: ["FirstName", "LastName", "PhoneNumber", "EmailAddress"]
+    const { id } = req.params;
+    const updateData = req.body;
+
+    if (!updateData.FirstName || !updateData.LastName || !updateData.PhoneNumber || !updateData.EmailAddress) {
+        return res.status(400).send({ error: "Failed to update the room" });
+    }
+
+    const [updateCount, updatedGuests] = await guests.update(updateData, {
+        where: { id },
+        fields: ["FirstName", "LastName", "PhoneNumber", "EmailAddress"],
+        returning: true,
     });
-    if (updateResult[0] == 0) {
+
+    if (updateCount === 0) {
         return res.status(404).send({ error: "Guest not found" });
     }
-    res.status(204)
-        .location(`${getBaseurl(req)}/guests/${req.params.id}`)
-        .send();
-}
+
+    res.status(200).send(updatedGuests[0]);
+};
 
 // DELETE
 exports.deleteById = async (req, res) => {
