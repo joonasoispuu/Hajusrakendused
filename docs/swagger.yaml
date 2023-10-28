@@ -158,6 +158,12 @@ paths:
                     description: The booking has been successfully added
                 '400':
                     description: One or all params are missing
+                '404':
+                    description: Roomnumber or GuestID doesnt exist
+                '409':
+                    description: There is already a booking with that RoomNumber or GuestId
+                '500':
+                    description: Something went wrong
             summary: Creates a Booking
             description: Creates a new booking
     '/bookings/{id}':
@@ -247,6 +253,45 @@ paths:
                     description: No bookings by that Id were found
             summary: Delete a booking
             description: Deletes booking by the Id
+    /rooms:
+        get:
+            tags:
+                - get-details
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                List of rooms:
+                                    value:
+                                        RoomNumber: 101A
+                                        DailyCost: 150
+                                        Status: Available
+                    description: Returns a list of all rooms
+            summary: Get a list of all rooms
+            description: Returns a list of all rooms
+        post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/new-realroom'
+                required: true
+            tags:
+                - Create
+            responses:
+                '201':
+                    description: The room has been successfully added
+                '400':
+                    description: One or all params are missing
+                '409':
+                    description: There is already a Room with that Roomnumber
+            summary: Creates a Room
+            description: Creates a new room
 components:
     schemas:
         error:
@@ -326,10 +371,10 @@ components:
             type: object
             properties:
                 GuestId:
-                    description: the guests id
+                    description: the guests id (primary key)
                     type: integer
                 RoomNumber:
-                    description: ''
+                    description: the roomnumber (primary key)
                     type: integer
                 CheckInDate:
                     description: ''
@@ -382,3 +427,25 @@ components:
                     type: integer
             example:
                 id: 1
+        new-realroom:
+            description: for adding new rooms
+            required:
+                - DailyCost
+                - Status
+                - RoomNumber
+            type: object
+            properties:
+                DailyCost:
+                    format: float
+                    description: ''
+                    type: number
+                Status:
+                    description: ''
+                    type: string
+                RoomNumber:
+                    description: ''
+                    type: string
+            example:
+                RoomNumber: 101A
+                DailyCost: 150
+                Status: Available

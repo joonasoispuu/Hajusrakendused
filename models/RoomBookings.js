@@ -7,11 +7,19 @@ module.exports = (dbConnection, Sequelize) => {
         },
         GuestId: {
             type: Sequelize.INTEGER,
-            allowNull: true
+            allowNull: false,
+            references: {
+                model: 'Guests',
+                key: 'id'
+            }
         },
         RoomNumber: {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: false,
+            references: {
+                model: 'Rooms',
+                key: 'RoomNumber'
+            }
         },
         CheckInDate: {
             type: Sequelize.STRING,
@@ -28,4 +36,4 @@ module.exports = (dbConnection, Sequelize) => {
     });
 
     return Booking;
-}
+};

@@ -17,9 +17,16 @@ try {
 }
 const db = {}
 db.sequelize = Sequelize
-db.connetcion = sequelize
+db.connection = sequelize;
 db.guests = require("./models/Guest")(sequelize, Sequelize);
+db.rooms = require("./models/Room")(sequelize, Sequelize);
 db.bookings = require("./models/RoomBookings")(sequelize, Sequelize);
+
+db.guests.hasMany(db.bookings, { foreignKey: 'GuestId' });
+db.rooms.hasMany(db.bookings, { foreignKey: 'RoomNumber' });
+db.bookings.belongsTo(db.guests, { foreignKey: 'GuestId' });
+db.bookings.belongsTo(db.rooms, { foreignKey: 'RoomNumber' });
+
 sync=async()=>{
     await sequelize.sync({force:true}) // Erase all and recreate
     // await sequelize.sync({alter:true}) // Alter existing to match the model

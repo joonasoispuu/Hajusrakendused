@@ -12,6 +12,7 @@ app.use(express.json())
 app.use("/docs", swaggerui.serve, swaggerui.setup(swaggerDocument))
 
 require("./Routes/guestRoutes")(app)
+require("./Routes/roomRoutes")(app)
 require("./Routes/bookingRoutes")(app)
 
 app.listen(port, () => {
