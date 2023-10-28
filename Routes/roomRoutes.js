@@ -7,4 +7,5 @@ module.exports = (app) => {
     app.route("/rooms/:RoomNumber")
         .get(roomController.getByRoomNumber)  // Read
         .put(roomController.editByRoomNumber) // Update
+        .delete(roomController.deleteByRoomNumber); // Delete
 };

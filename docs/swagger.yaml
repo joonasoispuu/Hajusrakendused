@@ -345,6 +345,29 @@ paths:
                     description: Unknown error
             summary: Change rooms details
             description: Change rooms details by room number
+        delete:
+            requestBody:
+                required: false
+            tags:
+                - Delete
+            parameters:
+                -
+                    name: RoomNumber
+                    in: path
+                    required: true
+            responses:
+                '204':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/delete-room-real'
+                    description: Successfully deleted the room!
+                '400':
+                    description: Failed to delete the room!
+                '404':
+                    description: No room by that room number was found
+            summary: Delete a room
+            description: Delete a room by the room number
 components:
     schemas:
         error:
@@ -517,3 +540,16 @@ components:
             example:
                 DailyCost: 150
                 Status: Available
+        delete-room-real:
+            description: delete a room by the room number
+            required:
+                - RoomNumber
+            type: object
+            properties:
+                RoomNumber:
+                    description: ''
+                    type: string
+            example: |-
+                {
+                    "RoomNumber": 101A
+                }

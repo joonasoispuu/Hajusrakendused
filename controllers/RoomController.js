@@ -73,3 +73,19 @@ exports.editByRoomNumber = async (req, res) => {
         res.status(500).send({ error: error.message });
     }
 };
+
+// DELETE
+exports.deleteByRoomNumber = async (req, res) => {
+    const { RoomNumber } = req.params;
+    try {
+        const numberOfDeletedRooms = await rooms.destroy({
+            where: { RoomNumber }
+        });
+        if (numberOfDeletedRooms === 0) {
+            return res.status(404).send({ error: "Room was not found by the room number" });
+        }
+        res.status(200).send({ message: "Room deleted successfully" });
+    } catch (error) {
+        res.status(500).send();
+    }
+};
