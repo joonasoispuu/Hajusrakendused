@@ -32,3 +32,18 @@ exports.getAll = async (req, res) => {
         res.status(500).send({ error: error.message || "Some error occurred while retrieving rooms." });
     }
 };
+
+exports.getByRoomNumber = async (req, res) => {
+    const RoomNumber = req.params.RoomNumber;
+
+    try {
+        const foundRoom = await rooms.findOne({ where: { RoomNumber } });
+        if (!foundRoom) {
+            return res.status(404).send({ error: `Room was not found by that room number` });
+        }
+        res.json(foundRoom);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: 'An error occurred while retrieving room data' });
+    }
+};

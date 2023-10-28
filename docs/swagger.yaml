@@ -136,7 +136,7 @@ paths:
                             examples:
                                 List of rooms:
                                     value:
-                                        RoomNumber: '40'
+                                        RoomNumber: 101A
                                         CheckInDate: 'December 17, 2023 08:24:00'
                                         CheckOutDate: 'December 20, 2023 08:24:00'
                                         Status: Occupied
@@ -292,6 +292,33 @@ paths:
                     description: There is already a Room with that Roomnumber
             summary: Creates a Room
             description: Creates a new room
+    '/rooms/{RoomNumber}':
+        get:
+            tags:
+                - details
+            parameters:
+                -
+                    name: RoomNumber
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                full details of a room by roomnumber:
+                                    value:
+                                        DailyCost: 150
+                                        Status: Available
+                    description: Returns full details of given room
+                '404':
+                    description: Room was not found by the room number
+            summary: Get full details of a room
+            description: Returns full details of the rooms given
 components:
     schemas:
         error:
