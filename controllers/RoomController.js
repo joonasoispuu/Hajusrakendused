@@ -47,3 +47,29 @@ exports.getByRoomNumber = async (req, res) => {
         res.status(500).send({ error: 'An error occurred while retrieving room data' });
     }
 };
+
+// UPDATE
+exports.editByRoomNumber = async (req, res) => {
+    const { RoomNumber } = req.params;
+    const { DailyCost, Status } = req.body;
+
+    const room = await rooms.findOne({ where: { RoomNumber } });
+    if (!room) {
+        return res.status(404).send({ error: "Room not found" });
+    }
+
+    const updateData = {};
+    if (DailyCost != null) updateData.DailyCost = DailyCost;
+    if (Status) updateData.Status = Status;
+
+    try {
+        await rooms.update(updateData, {
+            where: { RoomNumber }
+        });
+
+        const updatedRoom = await rooms.findOne({ where: { RoomNumber } });
+        res.status(200).json(updatedRoom);
+    } catch (error) {
+        res.status(500).send({ error: error.message });
+    }
+};

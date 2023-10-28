@@ -319,6 +319,32 @@ paths:
                     description: Room was not found by the room number
             summary: Get full details of a room
             description: Returns full details of the rooms given
+        put:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/update-rooms-details'
+                required: true
+            tags:
+                - change-details
+            parameters:
+                -
+                    name: RoomNumber
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    description: The updates were made successfully
+                '400':
+                    description: |
+                        Failed to update the room
+                '404':
+                    description: No rooms exist with that room number
+                '500':
+                    description: Unknown error
+            summary: Change rooms details
+            description: Change rooms details by room number
 components:
     schemas:
         error:
@@ -474,5 +500,20 @@ components:
                     type: string
             example:
                 RoomNumber: 101A
+                DailyCost: 150
+                Status: Available
+        update-rooms-details:
+            description: update a rooms details by the room number
+            required: []
+            type: object
+            properties:
+                DailyCost:
+                    format: float
+                    description: ''
+                    type: number
+                Status:
+                    description: ''
+                    type: string
+            example:
                 DailyCost: 150
                 Status: Available

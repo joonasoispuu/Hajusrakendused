@@ -5,5 +5,6 @@ module.exports = (app) => {
         .get(roomController.getAll)           // Read All
         .post(roomController.createNew)       // Create
     app.route("/rooms/:RoomNumber")
-        .get(roomController.getByRoomNumber);  // Read
+        .get(roomController.getByRoomNumber)  // Read
+        .put(roomController.editByRoomNumber) // Update
 };
