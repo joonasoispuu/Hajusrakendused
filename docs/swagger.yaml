@@ -484,6 +484,30 @@ paths:
                     description: No meal by that Id was found
             summary: Delete a meal
             description: Deletes a meal by the Id
+    /mealorders:
+        get:
+            tags:
+                - get-details
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                List of meal orders:
+                                    value:
+                                        id: 1
+                                        BookingId: 1
+                                        MealId: 2
+                                        OrderDate: '2023-11-08T19:20:30+01:00'
+                                        Status: Ordered
+                    description: Returns a list of all mealorders
+            summary: Get a list of all mealorders
+            description: |
+                Returns a list of all mealorders
 components:
     schemas:
         error:

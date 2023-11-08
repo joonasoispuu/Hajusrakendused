@@ -24,11 +24,14 @@ db.guests = require("./models/Guest")(sequelize, Sequelize);
 db.rooms = require("./models/Room")(sequelize, Sequelize);
 db.bookings = require("./models/RoomBookings")(sequelize, Sequelize);
 db.meals = require("./models/Meal")(sequelize, Sequelize);
+db.mealOrders = require("./models/MealOrder")(sequelize, Sequelize);
 
 db.guests.hasMany(db.bookings, { foreignKey: 'GuestId' });
 db.rooms.hasMany(db.bookings, { foreignKey: 'RoomNumber' });
 db.bookings.belongsTo(db.guests, { foreignKey: 'GuestId' });
 db.bookings.belongsTo(db.rooms, { foreignKey: 'RoomNumber' });
+db.bookings.hasMany(db.mealOrders, { foreignKey: 'BookingID' });
+db.mealOrders.belongsTo(db.bookings, { foreignKey: 'BookingID' });
 
 const sync = async () => {
     await sequelize.sync({ force: true }); // Erase all and recreate

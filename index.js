@@ -15,6 +15,7 @@ require("./Routes/guestRoutes")(app)
 require("./Routes/roomRoutes")(app)
 require("./Routes/bookingRoutes")(app)
 require("./Routes/mealRoutes")(app)
+require("./Routes/mealorderRoutes")(app)
 
 app.listen(port, () => {
     require("./db").sync()
