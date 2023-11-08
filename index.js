@@ -14,6 +14,7 @@ app.use("/docs", swaggerui.serve, swaggerui.setup(swaggerDocument))
 require("./Routes/guestRoutes")(app)
 require("./Routes/roomRoutes")(app)
 require("./Routes/bookingRoutes")(app)
+require("./Routes/mealRoutes")(app)
 
 app.listen(port, () => {
     require("./db").sync()

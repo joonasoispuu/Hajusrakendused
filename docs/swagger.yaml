@@ -368,6 +368,53 @@ paths:
                     description: No room by that room number was found
             summary: Delete a room
             description: Delete a room by the room number
+    /meals:
+        get:
+            tags:
+                - get-details
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                List of meals:
+                                    value:
+                                        MealID: 1
+                                        MealName: French Fries
+                                        Price: 1.49
+                    description: |
+                        Returns a full list of meals
+            summary: Get a list of all meals
+            description: |
+                Returns a list of all meals
+        post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/new-meal'
+                        examples:
+                            For adding meals:
+                                value:
+                                    MealName: French Fries
+                                    Price: 1.49
+                required: true
+            tags:
+                - Create
+            responses:
+                '201':
+                    description: The meal has been successfully added
+                '400':
+                    description: One or all params are missing
+                '404':
+                    description: There is already a meal with that MealName
+            summary: Creates a meal
+            description: |
+                Creates a new meal
 components:
     schemas:
         error:
@@ -553,3 +600,21 @@ components:
                 {
                     "RoomNumber": 101A
                 }
+        new-meal:
+            description: for adding new meals
+            required:
+                - MealID
+                - MealName
+                - Price
+            type: object
+            properties:
+                MealID:
+                    description: ''
+                    type: integer
+                MealName:
+                    description: ''
+                    type: string
+                Price:
+                    format: float
+                    description: ''
+                    type: number
