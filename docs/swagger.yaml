@@ -461,6 +461,29 @@ paths:
                     description: No meal exists with that id
             summary: Change meals details
             description: Change meals details by id
+        delete:
+            tags:
+                - Delete
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+            responses:
+                '204':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/delete-meal'
+                    description: |
+                        Succesfully deleted the meal
+                '400':
+                    description: |
+                        Failed to delete the meal
+                '404':
+                    description: No meal by that Id was found
+            summary: Delete a meal
+            description: Deletes a meal by the Id
 components:
     schemas:
         error:
@@ -680,3 +703,15 @@ components:
             example:
                 MealName: French Fries
                 Price: 1.49
+        delete-meal:
+            description: Delete meal by id
+            required:
+                - id
+            type: object
+            properties:
+                id:
+                    format: int32
+                    description: ''
+                    type: integer
+            example:
+                id: 1

@@ -59,3 +59,19 @@ exports.getAllMeals = async (req, res) => {
     });
     res.json(allMeals);
 };
+
+// DELETE
+exports.deleteMealById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const numberOfDeletedMeals = await meals.destroy({
+            where: { id }
+        });
+        if (numberOfDeletedMeals === 0) {
+            return res.status(404).send({ error: "Meal was not found with the given ID" });
+        }
+        res.status(200).send({ message: "Meal deleted successfully" });
+    } catch (error) {
+        res.status(500).send({ error: error.message });
+    }
+};

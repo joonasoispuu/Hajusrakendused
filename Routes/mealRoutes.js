@@ -6,4 +6,5 @@ module.exports = (app) => {
         .post(mealController.createMeal)     // Create
     app.route("/meals/:id")
         .put(mealController.updateMealById)  // Update
+        .delete(mealController.deleteMealById); // Delete
 }
