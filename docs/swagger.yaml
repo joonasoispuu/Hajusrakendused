@@ -346,8 +346,6 @@ paths:
             summary: Change rooms details
             description: Change rooms details by room number
         delete:
-            requestBody:
-                required: false
             tags:
                 - Delete
             parameters:
@@ -383,7 +381,7 @@ paths:
                             examples:
                                 List of meals:
                                     value:
-                                        MealID: 1
+                                        id: 1
                                         MealName: French Fries
                                         Price: 1.49
                     description: |
@@ -397,11 +395,6 @@ paths:
                     application/json:
                         schema:
                             $ref: '#/components/schemas/new-meal'
-                        examples:
-                            For adding meals:
-                                value:
-                                    MealName: French Fries
-                                    Price: 1.49
                 required: true
             tags:
                 - Create
@@ -415,6 +408,59 @@ paths:
             summary: Creates a meal
             description: |
                 Creates a new meal
+    '/meals/{id}':
+        get:
+            tags:
+                - details
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                Full details of a meal:
+                                    value:
+                                        id: 1
+                                        MealName: French Fries
+                                        Price: 1.49
+                    description: Returns full details of given meal
+                '404':
+                    description: Meal was not found
+            summary: Get full details of a meal
+            description: |
+                Returns full details of the meal given
+        put:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/update-meals-details'
+                required: true
+            tags:
+                - change-details
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    description: The updates were made successfully
+                '400':
+                    description: |
+                        Failed to update the meal
+                '404':
+                    description: No meal exists with that id
+            summary: Change meals details
+            description: Change meals details by id
 components:
     schemas:
         error:
@@ -603,14 +649,10 @@ components:
         new-meal:
             description: for adding new meals
             required:
-                - MealID
                 - MealName
                 - Price
             type: object
             properties:
-                MealID:
-                    description: ''
-                    type: integer
                 MealName:
                     description: ''
                     type: string
@@ -618,3 +660,23 @@ components:
                     format: float
                     description: ''
                     type: number
+            example:
+                MealName: French Fries
+                Price: 1.49
+        update-meals-details:
+            description: for updating a meals details by id
+            required:
+                - MealName
+                - Price
+            type: object
+            properties:
+                MealName:
+                    description: ''
+                    type: string
+                Price:
+                    format: float
+                    description: ''
+                    type: number
+            example:
+                MealName: French Fries
+                Price: 1.49

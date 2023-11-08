@@ -1,6 +1,6 @@
 module.exports = (dbConnection, Sequelize) => {
     const Meal = dbConnection.define("Meal", {
-        MealID: {
+        id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
