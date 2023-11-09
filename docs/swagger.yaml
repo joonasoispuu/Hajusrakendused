@@ -525,6 +525,37 @@ paths:
             summary: Creates a mealorder
             description: |
                 Creates a new mealorder
+    '/mealorders/{id}':
+        get:
+            tags:
+                - details
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                            examples:
+                                Full details of a meal order:
+                                    value:
+                                        BookingId: 1
+                                        MealId: 2
+                                        OrderDate: '2023-11-08T19:20:30+01:00'
+                                        Status: Ordered
+                    description: Returns full details of given meal order
+                '400':
+                    description: s
+                '404':
+                    description: No meal order was found by that id
+            summary: Get full details of a mealorder
+            description: Returns full details of a meal order
 components:
     schemas:
         error:

@@ -1,6 +1,8 @@
 const { db } = require("../db");
 const { mealOrders, bookings, meals } = db;
 
+
+//Create
 exports.createMealOrder = async (req, res) => {
   const { BookingID, MealID, Status } = req.body;
 
@@ -46,4 +48,15 @@ exports.getAllMealOrders = async (req, res) => {
     } catch (error) {
         res.status(500).send(error);
     }
+};
+
+//Read by Id
+exports.getMealOrderById = async (req, res) => {
+  const foundMealOrder = await mealOrders.findByPk(req.params.id);
+
+  if (!foundMealOrder) {
+      return res.status(404).send({ error: `Meal Order not found` });
+  }
+
+  res.json(foundMealOrder);
 };
