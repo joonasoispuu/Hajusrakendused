@@ -556,6 +556,54 @@ paths:
                     description: No meal order was found by that id
             summary: Get full details of a mealorder
             description: Returns full details of a meal order
+        put:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/update-meal-orders-details'
+                required: true
+            tags:
+                - change-details
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+            responses:
+                '200':
+                    description: The updates were made successfully
+                '400':
+                    description: |
+                        Failed to update the meal orders status
+                '404':
+                    description: No meal orders exist with that id
+                '500':
+                    description: Unknown error
+            summary: Change meal order details
+            description: |
+                Change meal orders details by id
+        delete:
+            tags:
+                - Delete
+            parameters:
+                -
+                    name: id
+                    in: path
+                    required: true
+            responses:
+                '204':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/delete-meal-order'
+                    description: Successfully deleted the meal order!
+                '400':
+                    description: Failed to delete the meal order!
+                '404':
+                    description: No room by that meal order was found
+            summary: Delete a meal order
+            description: Delete a meal order by the id
 components:
     schemas:
         error:
@@ -813,3 +861,26 @@ components:
                 BookingID: 1
                 MealID: 1
                 Status: Ordered
+        update-meal-orders-details:
+            description: ''
+            required:
+                - Status
+            type: object
+            properties:
+                Status:
+                    description: ''
+                    type: string
+            example:
+                Status: Delivered
+        delete-meal-order:
+            description: ''
+            required:
+                - id
+            type: object
+            properties:
+                id:
+                    format: int32
+                    description: ''
+                    type: integer
+            example:
+                id: 1

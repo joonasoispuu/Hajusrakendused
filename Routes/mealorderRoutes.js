@@ -5,5 +5,7 @@ module.exports = (app) => {
         .get(mealOrderController.getAllMealOrders)  // Read All
         .post(mealOrderController.createMealOrder)  // Create
     app.route("/mealOrders/:id")
-        .get(mealOrderController.getMealOrderById)  // Read
+        .get(mealOrderController.getMealOrderById)          // Read
+        .put(mealOrderController.updateMealOrderStatusById) // Update
+        .delete(mealOrderController.deleteMealOrderById)    // Delete
 };

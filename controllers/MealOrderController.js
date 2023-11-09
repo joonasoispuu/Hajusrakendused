@@ -60,3 +60,49 @@ exports.getMealOrderById = async (req, res) => {
 
   res.json(foundMealOrder);
 };
+
+// UPDATE
+exports.updateMealOrderStatusById = async (req, res) => {
+  const { id } = req.params;
+  const { Status } = req.body;
+
+  if (!Status) {
+      return res.status(400).send({ error: "Status update is required" });
+  }
+
+  const [updateCount] = await mealOrders.update({ Status }, {
+      where: { id },
+      fields: ["Status"],
+      returning: true,
+  });
+
+  if (updateCount === 0) {
+      return res.status(404).send({ error: "Meal order not found" });
+  }
+
+  res.status(200).send({ message: "Meal order status updated successfully" });
+};
+
+// DELETE
+exports.deleteMealOrderById = async (req, res) => {
+  const { id } = req.params;
+
+  const mealOrder = await mealOrders.findByPk(id);
+  if (!mealOrder) {
+    return res.status(404).send({ error: "No meal order found with that ID" });
+  }
+
+  if (mealOrder.Status === "Delivered") {
+    return res.status(400).send({ error: "Cannot cancel a delivered order" });
+  }
+
+  const deletedAmount = await mealOrders.destroy({
+    where: { id }
+  });
+
+  if (deletedAmount === 0) {
+    return res.status(404).send({ error: "No meal order found with that ID" });
+  }
+
+  res.status(204).send();
+};
