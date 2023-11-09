@@ -2,5 +2,6 @@ const mealOrderController = require("../controllers/MealOrderController.js");
 
 module.exports = (app) => {
     app.route("/mealOrders")
-        .get(mealOrderController.getAllMealOrders); // Read All
+        .get(mealOrderController.getAllMealOrders)  // Read All
+        .post(mealOrderController.createMealOrder)  // Create
 };

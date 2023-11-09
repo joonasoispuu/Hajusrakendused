@@ -508,6 +508,23 @@ paths:
             summary: Get a list of all mealorders
             description: |
                 Returns a list of all mealorders
+        post:
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/new-mealorder'
+                required: true
+            tags:
+                - Create
+            responses:
+                '201':
+                    description: The mealorder has been successfully added
+                '400':
+                    description: One or all params are missing
+            summary: Creates a mealorder
+            description: |
+                Creates a new mealorder
 components:
     schemas:
         error:
@@ -604,8 +621,8 @@ components:
                     description: ''
                     type: string
             example:
-                GuestId: '4'
-                RoomNumber: '42'
+                GuestId: '1'
+                RoomNumber: 101A
                 CheckInDate: 'December 16, 2023 01:25:00'
                 CheckOutDate: 'December 21, 2023 08:24:00'
                 Status: Occupied
@@ -739,3 +756,29 @@ components:
                     type: integer
             example:
                 id: 1
+        new-mealorder:
+            description: ''
+            required:
+                - BookingID
+                - MealID
+                - OrderDate
+                - Status
+            type: object
+            properties:
+                BookingID:
+                    description: ''
+                    type: integer
+                MealID:
+                    description: ''
+                    type: integer
+                OrderDate:
+                    format: date
+                    description: ''
+                    type: string
+                Status:
+                    description: ''
+                    type: string
+            example:
+                BookingID: 1
+                MealID: 1
+                Status: Ordered
