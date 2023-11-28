@@ -1,32 +1,29 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const app = Vue.createApp({
-        data() {
-            return {
-                guestInModal: {},
-                guests: []
-            };
-        },
-        async created() {
-            this.guests = await (await fetch("http://localhost:8080/guests")).json();
-        },
-        methods: {
-            async getGuest(id) {
-                try {
-                    const response = await fetch(`http://localhost:8080/guests/${id}`);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    this.guestInModal = await response.json();
-                    this.$nextTick(() => {
-                        const guestInfoModal = new bootstrap.Modal(document.getElementById('guestInfoModal'));
-                        guestInfoModal.show();
-                    });
-                } catch (e) {
-                    console.error('Error fetching guest details:', e);
-                }
-            }        
-        }
-    });
+import { createApp } from 'vue';
+import GuestsList from "./components/GuestList.js";
+import GuestInfoModal from "./components/GuestInfoModal.js";
 
-    app.mount('#app');
-});
+const AppComponent = {
+    template: `
+        <guests-list @showModal="openModal"></guests-list>
+        <guest-info-modal :guestInModal="guestInModal"></guest-info-modal>
+    `,
+    components: {
+        GuestsList,
+        GuestInfoModal
+    },
+    data() {
+        return {
+            msg: 'Hello world!',
+            guestInModal: { id: "", FirstName: "", LastName: "", PhoneNumber: "", EmailAddress: "" }
+        }
+    },
+    methods: {
+        openModal(guest) {
+            this.guestInModal = guest;
+            let guestInfoModal = new bootstrap.Modal(document.getElementById("guestInfoModal"));
+            guestInfoModal.show();
+        }
+    }
+};
+
+createApp(AppComponent).mount('#app');
