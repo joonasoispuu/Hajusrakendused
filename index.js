@@ -17,8 +17,8 @@ require("./Routes/bookingRoutes")(app)
 require("./Routes/mealRoutes")(app)
 require("./Routes/mealorderRoutes")(app)
 
-app.listen(port, () => {
-    require("./db").sync()
+app.listen(port, async () => {
+    await require("./db").sync()
         .then(console.log("Synchronized"))
         .catch((error) => console.log("Error:", error))
     console.log(`API up at: http://localhost:${port}/docs`);
