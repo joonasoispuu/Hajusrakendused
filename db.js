@@ -33,31 +33,38 @@ db.bookings.belongsTo(db.rooms, { foreignKey: 'RoomNumber' });
 db.bookings.hasMany(db.mealOrders, { foreignKey: 'BookingID' });
 db.mealOrders.belongsTo(db.bookings, { foreignKey: 'BookingID' });
 
-const sync = async () => {
-    if (process.env.DROP_DB) {
-        console.log("Begin DROP")
-        await db.connection.query('SET FOREIGN_KEY_CHECKS = 0')
-        console.log("Checks disabled")
-        await db.connection.sync({ force: true })
-        console.log('Database synchronised.');
-        await db.connection.query('SET FOREIGN_KEY_CHECKS = 1')
-        console.log("Checks enabled")
-    
-        const [guest, created] = await db.guests.findOrCreate({
-            where: {
-                EmailAddress: "Bob.Boberson@gmail.com"
-            },
-            defaults: {
-                FirstName: "Bob",
-                LastName: "Boberson",
-                PhoneNumber: 1234567890,
-                EmailAddress: "Bob.Boberson@gmail.com"
-            }
-        })
-        console.log("guest created: ", created)
+const seedGuests = async () => {
+    const guestsToSeed = [
+        { FirstName: "Pablo", LastName: "Gonzales", PhoneNumber: 1234567890, EmailAddress: "Pablo.Gonzales@gmail.com" },
+        { FirstName: "Bob", LastName: "Boberson", PhoneNumber: 1234567891, EmailAddress: "Bob.Boberson@gmail.com" }
+    ];
+
+    for (const guestData of guestsToSeed) {
+        await db.guests.findOrCreate({
+            where: { EmailAddress: guestData.EmailAddress },
+            defaults: guestData
+        });
     }
-    else {
-        await db.connection.sync({ alter: true }) // Alter existing to match the model
+};
+
+const sync = async () => {
+    try {
+        console.log('DROP_DB value:', process.env.DROP_DB);
+        if (process.env.DROP_DB === 'true') {
+            console.log("Begin DROP")
+            await db.connection.query('SET FOREIGN_KEY_CHECKS = 0')
+            console.log("Checks disabled")
+            await db.connection.sync({ force: true })
+            console.log('Database synchronised.');
+            await db.connection.query('SET FOREIGN_KEY_CHECKS = 1')
+            console.log("Checks enabled")
+        } else {
+            await db.connection.sync({ alter: true })
+            seedGuests();
+            console.log('Database structure updated.');
+        }
+    } catch (error) {
+        console.error('Error during database sync or seeding:', error);
     }    
 }
 

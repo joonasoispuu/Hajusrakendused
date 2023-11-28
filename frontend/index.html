@@ -38,16 +38,15 @@
         const app = Vue.createApp({
             data() {
                 return {
-                    guests: [
-                        { id: 1, FirstName: "Pablo", LastName: "Gonzales", PhoneNumber: "1234567890", EmailAddress: "Pablo.Gonzales@gmail.com" },
-                        { id: 2, FirstName: "Bob", LastName: "Johnson", PhoneNumber: "2345678901", EmailAddress: "Bob.Boberson@gmail.com" },
-                    ]
+                    guests: []
                 }
+            },
+            async created() {
+                this.guests = await (await fetch("http://localhost:8080/guests")).json()
             }
         })
 
         app.mount('#app')
     </script>
 </body>
-
 </html>
