@@ -15,12 +15,7 @@ export default {
         </tbody>
     </table>
     `,
-    emits: {
-        showModal: (guest) => {
-            console.log("Validation", guest)
-            return guest.id && guest.FirstName && guest.LastName && guest.PhoneNumber && guest.EmailAddress
-        }
-    },
+    emits: ["showModal"],
     data() {
         return {
             guests: []
@@ -32,7 +27,6 @@ export default {
     methods: {
         getGuest: async function (id) {
             const guestInModal = await (await fetch("http://localhost:8080/guests/" + id)).json()
-            console.log("GuestsList: ", guestInModal)
             this.$emit("showModal", guestInModal)
         }
     }

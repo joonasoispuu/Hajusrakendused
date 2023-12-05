@@ -1,5 +1,5 @@
-import GuestsList from "./GuestList.js"
-import GuestInfoModal from "./GuestInfoModal.js"
+import GuestsList from "./components//GuestList.js"
+import GuestInfoModal from "./components//GuestInfoModal.js"
 
 export default {
     template: `

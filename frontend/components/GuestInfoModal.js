@@ -11,34 +11,75 @@ export default {
                 <table class="table">
                     <tr>
                         <th>ID</th>
-                        <td>{{ guestInModal.id }}</td>
+                        <td>{{ isEditing ? modifiedGuest.id : guestInModal.id }}</td>
                     </tr>
                     <tr>
                         <th>First Name</th>
-                        <td>{{ guestInModal.FirstName }}</td>
+                        <td v-if="isEditing"><input v-model="modifiedGuest.FirstName"></td>
+                        <td v-else>{{ guestInModal.FirstName }}</td>
                     </tr>
                     <tr>
                         <th>Last Name</th>
-                        <td>{{ guestInModal.LastName }}</td>
+                        <td v-if="isEditing"><input v-model="modifiedGuest.LastName"></td>
+                        <td v-else>{{ guestInModal.LastName }}</td>
                     </tr>
                     <tr>
                         <th>Phone Number</th>
-                        <td>{{ guestInModal.PhoneNumber }}</td>
+                        <td v-if="isEditing"><input v-model="modifiedGuest.PhoneNumber"></td>
+                        <td v-else>{{ guestInModal.PhoneNumber }}</td>
                     </tr>
                     <tr>
                         <th>Email Address</th>
-                        <td>{{ guestInModal.EmailAddress }}</td>
+                        <td v-if="isEditing"><input v-model="modifiedGuest.EmailAddress"></td>
+                        <td v-else>{{ guestInModal.EmailAddress }}</td>
                     </tr>
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <template v-if="isEditing">
+                    <button type="button" class="btn btn-success" @click="saveModifiedGuest">Save</button>
+                    <button type="button" class="btn btn-secondary" @click="cancelEditing">Cancel</button>
+                </template>
+                <template v-else>
+                    <button type="button" class="btn btn-warning" @click="startEditing">Edit</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </template>
             </div>
         </div>
     </div>
 </div>
 `,
-props: {
-    guestInModal: {}
-}
+    props: {
+        guestInModal: {}
+    },
+    data() {
+        return {
+            isEditing: false,
+            modifiedGuest: {}
+        }
+    },
+    methods: {
+        startEditing() {
+            this.modifiedGuest = { ...this.guestInModal };
+            this.isEditing = true;
+        },
+        cancelEditing() {
+            this.isEditing = false;
+        },
+        async saveModifiedGuest() {
+            console.log("Saving:", this.modifiedGuest)
+            const rawResponse = await fetch("http://localhost:8080/guests/" + this.modifiedGuest.id, {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.modifiedGuest)
+            });
+            console.log(rawResponse);
+            this.$emit("guestsUpdated", this.modifiedGuest)
+            this.isEditing = false
+            location.reload();
+        }
+    }
 }
