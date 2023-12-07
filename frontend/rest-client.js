@@ -1,29 +1,24 @@
-import { createApp } from 'vue';
-import GuestsList from "./components/GuestList.js";
-import GuestInfoModal from "./components/GuestInfoModal.js";
+import { createApp } from 'vue'
+import { createRouter, createWebHashHistory } from 'vue-router'
+import App from './components/App.js'
 
-const AppComponent = {
-    template: `
-        <guests-list @showModal="openModal"></guests-list>
-        <guest-info-modal :guestInModal="guestInModal"></guest-info-modal>
-    `,
-    components: {
-        GuestsList,
-        GuestInfoModal
-    },
-    data() {
-        return {
-            msg: 'Hello world!',
-            guestInModal: { id: "", FirstName: "", LastName: "", PhoneNumber: "", EmailAddress: "" }
-        }
-    },
-    methods: {
-        openModal(guest) {
-            this.guestInModal = guest;
-            let guestInfoModal = new bootstrap.Modal(document.getElementById("guestInfoModal"));
-            guestInfoModal.show();
-        }
-    }
-};
+import RoomsView from './views/RoomsView.js'
+import GuestsView from './views/GuestsView.js'
 
-createApp(AppComponent).mount('#app');
+const routes = [
+    { path: "/", redirect: "/guests" },
+    { path: "/guests", component: GuestsView },
+    { path: "/rooms", component: RoomsView }
+]
+
+const router = createRouter({
+    history: createWebHashHistory(),
+    routes
+})
+
+const app = createApp(App)
+
+app.use(router)
+
+app.config.globalProperties.API_URL = 'http://localhost:8080'
+app.mount('#app')

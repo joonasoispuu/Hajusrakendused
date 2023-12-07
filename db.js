@@ -47,6 +47,20 @@ const seedGuests = async () => {
     }
 };
 
+const seedRooms = async () => {
+    const roomsToSeed = [
+        { RoomNumber: "101A", DailyCost: 200.00, Status: "Available" },
+        { RoomNumber: "102B", DailyCost: 250.00, Status: "Occupied" },
+    ];
+
+    for (const roomData of roomsToSeed) {
+        await db.rooms.findOrCreate({
+            where: { RoomNumber: roomData.RoomNumber },
+            defaults: roomData
+        });
+    }
+};
+
 const sync = async () => {
     try {
         console.log('DROP_DB value:', process.env.DROP_DB);
@@ -61,6 +75,7 @@ const sync = async () => {
         } else {
             await db.connection.sync({ alter: true })
             seedGuests();
+            seedRooms();
             console.log('Database structure updated.');
         }
     } catch (error) {

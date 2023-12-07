@@ -26,7 +26,7 @@ exports.createNew = async (req, res) => {
 
 exports.getAll = async (req, res) => {
     try {
-        const result = await rooms.findAll({ attributes: ["id", "RoomNumber", "DailyCost", "Status"] });
+        const result = await rooms.findAll({ attributes: ["RoomNumber", "DailyCost", "Status"] });
         res.json(result);
     } catch (error) {
         res.status(500).send({ error: error.message || "Some error occurred while retrieving rooms." });
