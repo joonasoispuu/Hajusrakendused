@@ -1,5 +1,4 @@
 export default {
-    /*html*/
     template: `
     <table id="guestsTable" class="table table-striped table-bordered">
         <thead>
@@ -27,18 +26,10 @@ export default {
         }
     },
     async created() {
-        try {
-            const response = await fetch("http://localhost:8080/guests");
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            this.guests = await response.json();
-        } catch (e) {
-            console.error("Failed to fetch guests:", e);
-        }
+        this.fetchData();
     },
     methods: {
-        getGuest: async function (id) {
+        async getGuest(id) {
             try {
                 const response = await fetch("http://localhost:8080/guests/" + id);
                 if (!response.ok) {
@@ -48,6 +39,17 @@ export default {
                 this.$emit("showModal", guestInModal);
             } catch (e) {
                 console.error(`Failed to fetch guest with id ${id}:`, e);
+            }
+        },
+        async fetchData() {
+            try {
+                const response = await fetch("http://localhost:8080/guests");
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                this.guests = await response.json();
+            } catch (e) {
+                console.error("Failed to fetch guests:", e);
             }
         }
     }
