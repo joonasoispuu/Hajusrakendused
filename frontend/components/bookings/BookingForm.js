@@ -23,7 +23,14 @@ export default {
         </tr>
         <tr>
             <th>Status</th>
-            <td><input :value="Status" @input="$emit('update:Status', $event.target.value)"></td>
+            <td>
+                <select @change="$emit('update:Status', $event.target.value)" v-model="Status">
+                    <option value="Booked">Booked</option>
+                    <option value="Canceled">Canceled</option>
+                    <option value="Declined">Declined</option>
+                    <option value="Checked In">Checked In</option>
+                </select>
+            </td>
         </tr>
     </table>`,
     props: ["id", "GuestId", "RoomNumber", "CheckInDate", "CheckOutDate", "Status"],

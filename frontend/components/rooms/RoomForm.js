@@ -11,8 +11,15 @@ export default {
         </tr>
         <tr>
             <th>Status</th>
-            <td><input :value="Status" @input="$emit('update:Status', $event.target.value)"></td>
+            <td>
+                <select @change="$emit('update:Status', $event.target.value)" v-model="Status">
+                    <option value="Booked">Booked</option>
+                    <option value="Available">Available</option>
+                    <option value="Occupied">Occupied</option>
+                </select>
+            </td>
         </tr>
+
     </table>`,
     props: ["RoomNumber", "DailyCost", "Status", "isEditing"],
     emits: ["update:RoomNumber", "update:DailyCost", "update:Status"]
