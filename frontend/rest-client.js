@@ -5,12 +5,14 @@ import App from './components/App.js'
 import RoomsView from './views/RoomsView.js'
 import GuestsView from './views/GuestsView.js'
 import BookingsView from './views/BookingsView.js'
+import MealsView from './views/MealsView.js'
 
 const routes = [
     { path: "/", redirect: "/guests" },
     { path: "/guests", component: GuestsView },
     { path: "/rooms", component: RoomsView },
-    { path: "/bookings", component: BookingsView }
+    { path: "/bookings", component: BookingsView },
+    { path: "/meals", component: MealsView }
 ]
 
 const router = createRouter({

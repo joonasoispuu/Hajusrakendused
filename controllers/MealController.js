@@ -60,6 +60,17 @@ exports.getAllMeals = async (req, res) => {
     res.json(allMeals);
 };
 
+//Read by Id
+exports.getMealById = async (req, res) => {
+    const foundMeal = await meals.findByPk(req.params.id);
+  
+    if (!foundMeal) {
+        return res.status(404).send({ error: `Meal not found` });
+    }
+  
+    res.json(foundMeal);
+  };
+
 // DELETE
 exports.deleteMealById = async (req, res) => {
     const { id } = req.params;

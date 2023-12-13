@@ -5,7 +5,7 @@ import guestForm from "../components/guests/GuestForm.js";
 
 export default {
     template: `
-        <div> <!-- Wrap everything in a single root element -->
+        <div>
             <button class="btn btn-secondary" @click="newGuest">New Guest</button>
             <guest-lists :key="update" @showModal="openModal"></guest-lists>
             <guest-info-modal @guestsUpdated="updateView" :guestInModal="guestInModal"></guest-info-modal>

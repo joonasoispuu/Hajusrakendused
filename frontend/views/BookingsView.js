@@ -5,7 +5,7 @@ import bookingForm from "../components/bookings/BookingForm.js";
 
 export default {
     template: `
-        <div> <!-- Wrap everything in a single root element -->
+        <div>
             <button class="btn btn-secondary" @click="newBooking">New Booking</button>
             <bookings-list :key="update" @showModal="openModal"></bookings-list>
             <booking-info-modal @bookingsUpdated="updateView" :bookingInModal="bookingInModal"></booking-info-modal>
