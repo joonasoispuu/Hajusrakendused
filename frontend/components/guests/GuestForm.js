@@ -4,7 +4,7 @@ export default {
     <table class="table table-striped">
         <tr>
             <th>ID</th>
-            <td>{{ id }}</td> <!-- Assuming ID is not editable -->
+            <td>{{ id }}</td>
         </tr>
         <tr>
             <th>First Name</th>
