@@ -6,13 +6,15 @@ import RoomsView from './views/RoomsView.js'
 import GuestsView from './views/GuestsView.js'
 import BookingsView from './views/BookingsView.js'
 import MealsView from './views/MealsView.js'
+import MealOrdersView from './views/MealOrdersView.js'
 
 const routes = [
     { path: "/", redirect: "/guests" },
     { path: "/guests", component: GuestsView },
     { path: "/rooms", component: RoomsView },
     { path: "/bookings", component: BookingsView },
-    { path: "/meals", component: MealsView }
+    { path: "/meals", component: MealsView },
+    { path: "/mealorders", component: MealOrdersView }
 ]
 
 const router = createRouter({
