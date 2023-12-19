@@ -37,15 +37,17 @@ export default {
         },
         newRoom() {
             this.error = "";
-            this.roomInModal = { RoomNumber: "", DailyCost: 0, Status: "" };
+            this.roomInModal = { RoomNumber: "", DailyCost: 0, Status: "Available" };
             this.newRoomModal = new bootstrap.Modal(document.getElementById("newRoomModal"));
             this.newRoomModal.show();
-        },
+        },        
         updateView(room) {
             this.update++;
             this.roomInModal = room;
         },
         async saveNewRoom() {
+            this.roomInModal.Status = "Available";
+        
             console.log("Saving:", this.roomInModal);
             const rawResponse = await fetch(this.API_URL + "/rooms/", {
                 method: 'POST',
@@ -62,6 +64,6 @@ export default {
                 const errorResponse = await rawResponse.json();
                 this.error = errorResponse.error;
             }
-        }
+        }        
     }
 };

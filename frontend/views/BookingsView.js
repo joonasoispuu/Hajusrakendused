@@ -56,12 +56,52 @@ export default {
                 },
                 body: JSON.stringify(this.bookingInModal)
             });
+        
             if (rawResponse.ok) {
+                if (!this.bookingInModal.id) {
+                    await this.updateRoomStatusBasedOnBooking(this.bookingInModal);
+                }
                 this.newBookingModal.hide();
                 this.update++;
             } else {
                 const errorResponse = await rawResponse.json();
                 this.error = errorResponse.error;
+            }
+        },
+        async updateRoomStatusBasedOnBooking(booking) {
+            let newRoomStatus;
+            switch (booking.Status) {
+                case "Booked":
+                    newRoomStatus = "Booked";
+                    break;
+                case "Canceled":
+                    newRoomStatus = "Available";
+                    break;
+                case "Declined":
+                    newRoomStatus = "Available";
+                    break;
+                case "Checked In":
+                    newRoomStatus = "Occupied";
+                    break;
+                default:
+                    newRoomStatus = "Available";
+            }
+    
+            try {
+                const response = await fetch(`http://localhost:8080/rooms/${booking.RoomNumber}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ Status: newRoomStatus })
+                });
+    
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+            } catch (error) {
+                console.error("Failed to update room status:", error);
             }
         }
     }
